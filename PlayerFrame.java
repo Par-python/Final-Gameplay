@@ -1,0 +1,290 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+//for server
+import java.io.*;
+import java.net.*;
+
+public class PlayerFrame extends JFrame {
+    
+    //gameplay(Local)
+    private int width, height;
+    private Container contentPane;
+    private PlayerSprite me;
+    private PlayerSprite enemy;
+    private DrawingComponent dc;
+    private Timer animationTimer;
+    private boolean gas, brake, shiftU, shiftD;
+    private static double speed;
+    private static int gear;
+    private EngineType engineType;
+    private BrakeType brakeType;
+    private boolean clutchReleased;
+
+    //art 
+    private GameBackground background;
+
+
+    //for server
+    private Socket socket;
+    private int playerID;
+    private ReadFromServer rfsRunnable;
+    private WriteToServer wtsRunnable;
+
+    public PlayerFrame(int w, int h){
+        width = w;
+        height = h;
+        gas = false;
+        brake = false;
+        shiftU = false;
+        shiftD = false;
+        speed = 0;
+        gear = 1;
+        clutchReleased = true;
+        engineType = new EngineType("ShortCake Core");
+        brakeType = new BrakeType("Stripe Brakes");
+        background = new GameBackground();
+        
+    }
+
+    public void setUpGUI(){
+        contentPane = this.getContentPane();
+        this.setTitle("Candy Racers Player: " + playerID );
+        contentPane.setPreferredSize(new Dimension(width,height));
+        createSprites();
+        dc = new DrawingComponent();
+        contentPane.add(dc);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        setUpKeyListener();
+        this.setVisible(true);
+        engineType.checkEngine();
+        brakeType.checkBrake();
+
+        setUpAnimationTimer();
+    }
+
+    private void createSprites(){
+        if(playerID == 1){
+            me = new PlayerSprite(100,400,50,Color.BLUE);
+            enemy = new PlayerSprite(100,500, 50, Color.RED);
+        } else {
+            enemy = new PlayerSprite(100,400,50,Color.BLUE);
+            me = new PlayerSprite(100,500, 50, Color.RED);
+        }
+    }
+
+    public static double getSpeed(){
+        return speed;
+    }
+
+    public static double getGearUpdate(){
+        return gear;
+    }
+    
+    private void setUpAnimationTimer(){
+        int interval = 10;
+        ActionListener al = new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                    
+                    if(gas){
+                        engineType.checkEngine();
+                        speed += engineType.getAccelerationFinal();
+                        System.out.printf("Accerelate: %.0f\n ", speed * 100);
+                    } else if (speed < 0) {
+                        speed = 0;
+                    }else if (speed > 0.01){
+                        if (brake){
+                            speed -= brakeType.getDeccelerationFinal();
+                        } else {
+                            speed -=0.0025;
+                        } 
+                        
+                        if(speed < 0){
+                            System.out.printf("Deccerelate: 0\n ");
+                        } else {
+                            System.out.printf("Deccerelate: %.0f\n ", speed * 100);
+                        }
+                    }
+
+                    if(shiftU){
+                        if (clutchReleased == true){
+                             gear += engineType.getGear();
+                             clutchReleased = false;
+                             System.out.println("Gear:" + gear);
+                        }        
+                    }
+
+                    if(shiftD){
+                        if(gear != 0 && clutchReleased == true){
+                            gear -= engineType.getGear();
+                            clutchReleased = false;
+                            System.out.println("Gear:" + gear);
+                        }
+                    }
+
+                      me.moveH(speed);
+
+                dc.repaint();
+            }
+        };
+        animationTimer = new Timer(interval,al);
+        animationTimer.start();
+    }
+
+    private void setUpKeyListener(){
+        KeyListener kl = new KeyListener(){
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch(keyCode){
+                    case KeyEvent.VK_W:
+                        gas = true;
+                        break;
+                    case KeyEvent.VK_S:
+                        brake = true;
+                        break;
+                    case KeyEvent.VK_Q:
+                        shiftD = true;
+                        break;
+                    case KeyEvent.VK_E:
+                        shiftU = true;
+                        break;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch(keyCode){
+                    case KeyEvent.VK_W:
+                        gas = false;
+                        break;
+                    case KeyEvent.VK_S:
+                        brake = false;
+                        break;
+                    case KeyEvent.VK_Q:
+                        shiftD = false;
+                        clutchReleased = true;
+                        break;
+                    case KeyEvent.VK_E:
+                        shiftU = false;
+                        clutchReleased = true;
+                        break;
+                }
+            }
+        };
+        contentPane.addKeyListener(kl);
+        contentPane.setFocusable(true);
+    }
+
+    private void connectToServer(){
+        try{
+            socket = new Socket("localhost", 5000);
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            playerID = in.readInt();
+            System.out.println("You are player# " + playerID);
+
+            if(playerID == 1){
+                 System.out.println("Waiting for player #2 to connect...");
+            }
+            rfsRunnable = new ReadFromServer(in);
+            wtsRunnable = new WriteToServer(out);
+
+            rfsRunnable.waitForStartMsg();
+        } catch(IOException ex) {
+            System.out.println("IOException from connectToServer");
+        }
+    }
+
+    private class DrawingComponent extends JComponent{
+        protected void paintComponent(Graphics g){
+            Graphics2D g2d = (Graphics2D) g;
+            enemy.drawSprite(g2d);
+            me.drawSprite(g2d);
+        }
+    }
+
+    private class ReadFromServer implements Runnable {
+
+        private DataInputStream dataIn;
+
+        public ReadFromServer(DataInputStream in){
+            dataIn = in;
+            System.out.println("RFS Runnable Created");         
+        }
+
+        public void run(){
+            try {
+
+                while(true){
+                    if(enemy != null){
+                        enemy.setX(dataIn.readDouble());
+                        enemy.setY(dataIn.readDouble());
+                    }
+                }
+            } catch(IOException ex){
+                System.out.println("IOException from RFS run()");
+            }
+        }
+
+        public void waitForStartMsg(){
+            try{
+                String startMsg = dataIn.readUTF();
+                System.out.println("Message from server: " + startMsg);
+
+                Thread readThread = new Thread(rfsRunnable);
+                Thread writeThread = new Thread(wtsRunnable);
+                readThread.start();
+                writeThread.start();
+            } catch(IOException ex){
+                System.out.println("IOException from waitForStartMsg()");
+            }
+        }
+    }
+
+    private class WriteToServer implements Runnable {
+
+        private DataOutputStream dataOut;
+
+        public WriteToServer(DataOutputStream out){
+            dataOut = out;
+            System.out.println("WTS Runnable Created");         
+        }
+
+        public void run(){
+            try {
+
+                while(true){
+                    //doesnt have y(does it)
+                    if(me != null){
+                        dataOut.writeDouble(me.getX());
+                        dataOut.writeDouble(me.getY());
+                        dataOut.flush();
+                    }
+                    try {
+                        Thread.sleep(25);
+                    } catch(InterruptedException ex){
+                        System.out.println("InterreputedException from WTS run()");
+                    }
+                }
+            } catch(IOException ex){
+                System.out.println("IOException from WTS run()");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        PlayerFrame pf = new PlayerFrame(1024,768);
+        pf.connectToServer();
+        pf.setUpGUI();
+    }
+}
