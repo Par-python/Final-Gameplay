@@ -25,10 +25,9 @@ public class PlayerFrame extends JFrame {
     //art 
     private GameBackground background;
 
-
     //for server
     private Socket socket;
-    private int playerID;
+    private static int playerID;
     private ReadFromServer rfsRunnable;
     private WriteToServer wtsRunnable;
 
@@ -45,15 +44,16 @@ public class PlayerFrame extends JFrame {
         engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
-        
+        me = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
+        enemy = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
     }
 
     public void setUpGUI(){
         contentPane = this.getContentPane();
         this.setTitle("Candy Racers Player: " + playerID );
         contentPane.setPreferredSize(new Dimension(width,height));
-        createSprites();
         dc = new DrawingComponent();
+        createSprites();
         contentPane.add(dc);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
@@ -69,8 +69,8 @@ public class PlayerFrame extends JFrame {
         if(playerID == 1){
             me = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
             enemy = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
-        } else {
-            enemy = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
+        }  else  {
+            enemy = new PlayerSprite(100,400,50,Color.BLUE, "BlueBerry");
             me = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
         }
     }
@@ -228,7 +228,6 @@ public class PlayerFrame extends JFrame {
                 while(true){
                     if(enemy != null){
                         enemy.setX(dataIn.readDouble());
-                        enemy.setY(dataIn.readDouble());
                     }
                 }
             } catch(IOException ex){
@@ -267,7 +266,6 @@ public class PlayerFrame extends JFrame {
                     //doesnt have y(does it)
                     if(me != null){
                         dataOut.writeDouble(me.getX());
-                        dataOut.writeDouble(me.getY());
                         dataOut.flush();
                     }
                     try {

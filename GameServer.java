@@ -102,12 +102,9 @@ public class GameServer {
 
                 while(true){
                     if(playerID == 1){
-                         //doesnt have y(does it)
                         p1x = dataIn.readDouble();
-                        p1y = dataIn.readDouble();
                     } else {
                         p2x = dataIn.readDouble();
-                        p2y = dataIn.readDouble();
                     }
                 }
             } catch(IOException ex){
@@ -134,11 +131,9 @@ public class GameServer {
                     if (playerID == 1){
                         //doesnt have y (does it)
                         dataOut.writeDouble(p2x);
-                         dataOut.writeDouble(p2y);
                         dataOut.flush();
                     } else {
                         dataOut.writeDouble(p1x);
-                        dataOut.writeDouble(p1y);
                         dataOut.flush();
                     }
                     try {
@@ -160,6 +155,7 @@ public class GameServer {
             }
         }
     }
+
 
     public static void main(String[] args) {
         GameServer gs = new GameServer();

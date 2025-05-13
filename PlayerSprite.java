@@ -40,7 +40,6 @@ public class PlayerSprite{
         }
 
         public void drawSprite(Graphics2D g2d){
-            // AffineTransform transform = new AffineTransform();
             g2d.translate(x, y);
             g2d.drawImage(pokeImage(), 0,0, null);
             g2d.translate(-x, -y);
