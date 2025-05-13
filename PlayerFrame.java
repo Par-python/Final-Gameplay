@@ -67,11 +67,11 @@ public class PlayerFrame extends JFrame {
 
     private void createSprites(){
         if(playerID == 1){
-            me = new PlayerSprite(100,400,50,Color.BLUE);
-            enemy = new PlayerSprite(100,500, 50, Color.RED);
+            me = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
+            enemy = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
         } else {
-            enemy = new PlayerSprite(100,400,50,Color.BLUE);
-            me = new PlayerSprite(100,500, 50, Color.RED);
+            enemy = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
+            me = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
         }
     }
 
