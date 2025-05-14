@@ -67,11 +67,11 @@ public class PlayerFrame extends JFrame {
 
     private void createSprites(){
         if(playerID == 1){
-            me = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
-            enemy = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
+            me = new PlayerSprite(100,500,50,Color.BLUE, "Blueberry");
+            enemy = new PlayerSprite(100,600, 50, Color.RED, "Strawberry");
         }  else  {
-            enemy = new PlayerSprite(100,400,50,Color.BLUE, "BlueBerry");
-            me = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
+            enemy = new PlayerSprite(100,500,50,Color.BLUE, "BlueBerry");
+            me = new PlayerSprite(100,600, 50, Color.RED, "Strawberry");
         }
     }
 
@@ -208,6 +208,7 @@ public class PlayerFrame extends JFrame {
     private class DrawingComponent extends JComponent{
         protected void paintComponent(Graphics g){
             Graphics2D g2d = (Graphics2D) g;
+            background.paintComponent(g2d);
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
         }
