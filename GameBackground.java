@@ -7,7 +7,7 @@ public class GameBackground extends JComponent{
     public GameBackground() {
         ImageIcon img = new ImageIcon("./assets/gameBackground.png");
         gameBackground = img.getImage();
-        setBounds(0, 0, 1024, 768);
+        setBounds(0, 0, 4096, 768);
     }
 
     

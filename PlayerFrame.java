@@ -7,8 +7,8 @@ import java.io.*;
 import java.net.*;
 
 public class PlayerFrame extends JFrame {
-    
-    //gameplay(Local)
+
+    // gameplay(Local)
     private int width, height;
     private Container contentPane;
     private PlayerSprite me;
@@ -22,16 +22,17 @@ public class PlayerFrame extends JFrame {
     private BrakeType brakeType;
     private boolean clutchReleased;
 
-    //art 
+    // art
     private GameBackground background;
+    private GameMapAssets assets;
 
-    //for server
+    // for server
     private Socket socket;
     private static int playerID;
     private ReadFromServer rfsRunnable;
     private WriteToServer wtsRunnable;
 
-    public PlayerFrame(int w, int h){
+    public PlayerFrame(int w, int h) {
         width = w;
         height = h;
         gas = false;
@@ -44,14 +45,15 @@ public class PlayerFrame extends JFrame {
         engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
-        me = new PlayerSprite(100,400,50,Color.BLUE, "Blueberry");
-        enemy = new PlayerSprite(100,500, 50, Color.RED, "Strawberry");
+        assets = new GameMapAssets();
+        me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
+        enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
     }
 
-    public void setUpGUI(){
+    public void setUpGUI() {
         contentPane = this.getContentPane();
-        this.setTitle("Candy Racers Player: " + playerID );
-        contentPane.setPreferredSize(new Dimension(width,height));
+        this.setTitle("Candy Racers Player: " + playerID);
+        contentPane.setPreferredSize(new Dimension(width, height));
         dc = new DrawingComponent();
         createSprites();
         contentPane.add(dc);
@@ -65,86 +67,86 @@ public class PlayerFrame extends JFrame {
         setUpAnimationTimer();
     }
 
-    private void createSprites(){
-        if(playerID == 1){
-            me = new PlayerSprite(100,500,50,Color.BLUE, "Blueberry");
-            enemy = new PlayerSprite(100,600, 50, Color.RED, "Strawberry");
-        }  else  {
-            enemy = new PlayerSprite(100,500,50,Color.BLUE, "BlueBerry");
-            me = new PlayerSprite(100,600, 50, Color.RED, "Strawberry");
+    private void createSprites() {
+        if (playerID == 1) {
+            me = new PlayerSprite(100, 350, 50, Color.BLUE, "Blueberry");
+            enemy = new PlayerSprite(100, 450, 50, Color.RED, "Strawberry");
+        } else {
+            enemy = new PlayerSprite(100, 350, 50, Color.BLUE, "BlueBerry");
+            me = new PlayerSprite(100, 450, 50, Color.RED, "Strawberry");
         }
     }
 
-    public static double getSpeed(){
+    public static double getSpeed() {
         return speed;
     }
 
-    public static double getGearUpdate(){
+    public static double getGearUpdate() {
         return gear;
     }
-    
-    private void setUpAnimationTimer(){
+
+    private void setUpAnimationTimer() {
         int interval = 10;
-        ActionListener al = new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                    
-                    if(gas){
-                        engineType.checkEngine();
-                        speed += engineType.getAccelerationFinal();
-                        System.out.printf("Accerelate: %.0f\n ", speed * 100);
-                    } else if (speed < 0) {
-                        speed = 0;
-                    }else if (speed > 0.01){
-                        if (brake){
-                            speed -= brakeType.getDeccelerationFinal();
-                        } else {
-                            speed -=0.0025;
-                        } 
-                        
-                        if(speed < 0){
-                            System.out.printf("Deccerelate: 0\n ");
-                        } else {
-                            System.out.printf("Deccerelate: %.0f\n ", speed * 100);
-                        }
+        ActionListener al = new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+
+                if (gas) {
+                    engineType.checkEngine();
+                    speed += engineType.getAccelerationFinal();
+                    System.out.printf("Accerelate: %.0f\n ", speed * 100);
+                } else if (speed < 0) {
+                    speed = 0;
+                } else if (speed > 0.01) {
+                    if (brake) {
+                        speed -= brakeType.getDeccelerationFinal();
+                    } else {
+                        speed -= 0.0025;
                     }
 
-                    if(shiftU){
-                        if (clutchReleased == true){
-                             gear += engineType.getGear();
-                             clutchReleased = false;
-                             System.out.println("Gear:" + gear);
-                        }        
+                    if (speed < 0) {
+                        System.out.printf("Deccerelate: 0\n ");
+                    } else {
+                        System.out.printf("Deccerelate: %.0f\n ", speed * 100);
                     }
+                }
 
-                    if(shiftD){
-                        if(gear != 0 && clutchReleased == true){
-                            gear -= engineType.getGear();
-                            clutchReleased = false;
-                            System.out.println("Gear:" + gear);
-                        }
+                if (shiftU) {
+                    if (clutchReleased == true) {
+                        gear += engineType.getGear();
+                        clutchReleased = false;
+                        System.out.println("Gear:" + gear);
                     }
+                }
 
-                      me.moveH(speed);
+                if (shiftD) {
+                    if (gear != 0 && clutchReleased == true) {
+                        gear -= engineType.getGear();
+                        clutchReleased = false;
+                        System.out.println("Gear:" + gear);
+                    }
+                }
+
+                me.moveH(speed);
 
                 dc.repaint();
             }
         };
-        animationTimer = new Timer(interval,al);
+        animationTimer = new Timer(interval, al);
         animationTimer.start();
     }
 
-    private void setUpKeyListener(){
-        KeyListener kl = new KeyListener(){
+    private void setUpKeyListener() {
+        KeyListener kl = new KeyListener() {
 
             @Override
             public void keyTyped(KeyEvent e) {
-                
+
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                switch(keyCode){
+                switch (keyCode) {
                     case KeyEvent.VK_W:
                         gas = true;
                         break;
@@ -163,7 +165,7 @@ public class PlayerFrame extends JFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                switch(keyCode){
+                switch (keyCode) {
                     case KeyEvent.VK_W:
                         gas = false;
                         break;
@@ -185,32 +187,50 @@ public class PlayerFrame extends JFrame {
         contentPane.setFocusable(true);
     }
 
-    private void connectToServer(){
-        try{
+    private void connectToServer() {
+        try {
             socket = new Socket("localhost", 5000);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             playerID = in.readInt();
             System.out.println("You are player# " + playerID);
 
-            if(playerID == 1){
-                 System.out.println("Waiting for player #2 to connect...");
+            if (playerID == 1) {
+                System.out.println("Waiting for player #2 to connect...");
             }
             rfsRunnable = new ReadFromServer(in);
             wtsRunnable = new WriteToServer(out);
 
             rfsRunnable.waitForStartMsg();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             System.out.println("IOException from connectToServer");
         }
     }
 
-    private class DrawingComponent extends JComponent{
-        protected void paintComponent(Graphics g){
-            Graphics2D g2d = (Graphics2D) g;
+    private class DrawingComponent extends JComponent {
+        protected void paintComponent(Graphics g) {
+
+            Graphics2D g2d = (Graphics2D) g.create();
+
+            if (me.getX() >= (getWidth() / 2)) {
+                double frameWidth = getWidth();
+                double playerX = me.getX();
+                double cameraX = playerX - frameWidth / 2;
+
+                g2d.translate(-cameraX, 0);
+            }
+
             background.paintComponent(g2d);
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
+            assets.paintComponent(g2d);
+
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+            g2d.drawString(String.format("Speed: %.0f", speed * 100), 500, 740);
+            g2d.drawString("Gear: " + gear, 500, 760);
+
+            g2d.dispose();
         }
     }
 
@@ -218,26 +238,26 @@ public class PlayerFrame extends JFrame {
 
         private DataInputStream dataIn;
 
-        public ReadFromServer(DataInputStream in){
+        public ReadFromServer(DataInputStream in) {
             dataIn = in;
-            System.out.println("RFS Runnable Created");         
+            System.out.println("RFS Runnable Created");
         }
 
-        public void run(){
+        public void run() {
             try {
 
-                while(true){
-                    if(enemy != null){
+                while (true) {
+                    if (enemy != null) {
                         enemy.setX(dataIn.readDouble());
                     }
                 }
-            } catch(IOException ex){
+            } catch (IOException ex) {
                 System.out.println("IOException from RFS run()");
             }
         }
 
-        public void waitForStartMsg(){
-            try{
+        public void waitForStartMsg() {
+            try {
                 String startMsg = dataIn.readUTF();
                 System.out.println("Message from server: " + startMsg);
 
@@ -245,7 +265,7 @@ public class PlayerFrame extends JFrame {
                 Thread writeThread = new Thread(wtsRunnable);
                 readThread.start();
                 writeThread.start();
-            } catch(IOException ex){
+            } catch (IOException ex) {
                 System.out.println("IOException from waitForStartMsg()");
             }
         }
@@ -255,34 +275,34 @@ public class PlayerFrame extends JFrame {
 
         private DataOutputStream dataOut;
 
-        public WriteToServer(DataOutputStream out){
+        public WriteToServer(DataOutputStream out) {
             dataOut = out;
-            System.out.println("WTS Runnable Created");         
+            System.out.println("WTS Runnable Created");
         }
 
-        public void run(){
+        public void run() {
             try {
 
-                while(true){
-                    //doesnt have y(does it)
-                    if(me != null){
+                while (true) {
+                    // doesnt have y(does it)
+                    if (me != null) {
                         dataOut.writeDouble(me.getX());
                         dataOut.flush();
                     }
                     try {
                         Thread.sleep(25);
-                    } catch(InterruptedException ex){
+                    } catch (InterruptedException ex) {
                         System.out.println("InterreputedException from WTS run()");
                     }
                 }
-            } catch(IOException ex){
+            } catch (IOException ex) {
                 System.out.println("IOException from WTS run()");
             }
         }
     }
 
     public static void main(String[] args) {
-        PlayerFrame pf = new PlayerFrame(1024,768);
+        PlayerFrame pf = new PlayerFrame(1024, 768);
         pf.connectToServer();
         pf.setUpGUI();
     }

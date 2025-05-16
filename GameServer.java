@@ -25,10 +25,10 @@ public class GameServer {
         maxPlayers = 2;
 
         p1x = 100;
-        p1y = 500;
+        p1y = 350;
 
         p2x = 100;
-        p2y = 600;
+        p2y = 450;
 
         try {
             ss = new ServerSocket(5000);
