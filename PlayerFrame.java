@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.*;
 
 //for server
@@ -25,6 +27,8 @@ public class PlayerFrame extends JFrame {
     // art
     private GameBackground background;
     private GameMapAssets assets;
+    private GameMapClouds clouds;
+    private GameMapCastle castle;
 
     // for server
     private Socket socket;
@@ -46,6 +50,8 @@ public class PlayerFrame extends JFrame {
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
         assets = new GameMapAssets();
+        clouds = new GameMapClouds();
+        castle = new GameMapCastle();
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
     }
@@ -212,6 +218,8 @@ public class PlayerFrame extends JFrame {
 
             Graphics2D g2d = (Graphics2D) g.create();
 
+            castle.paintComponent(g2d);
+
             if (me.getX() >= (getWidth() / 2)) {
                 double frameWidth = getWidth();
                 double playerX = me.getX();
@@ -220,17 +228,18 @@ public class PlayerFrame extends JFrame {
                 g2d.translate(-cameraX, 0);
             }
 
+            clouds.paintComponent(g2d);
             background.paintComponent(g2d);
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
             assets.paintComponent(g2d);
 
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-            g2d.drawString(String.format("Speed: %.0f", speed * 100), 500, 740);
-            g2d.drawString("Gear: " + gear, 500, 760);
-
             g2d.dispose();
+            
+            g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+            g.setColor(Color.WHITE);
+            g.drawString(String.format("Speed: %.0f", speed * 1), 500, 740);
+            g.drawString("Gear: " + gear, 500, 760);
         }
     }
 

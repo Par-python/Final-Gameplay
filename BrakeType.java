@@ -20,11 +20,11 @@ public class BrakeType {
     }
 
     public void CandyBrakesSpeed(){
-        decceleration = 0.01;
+        decceleration = 2;
     }
 
     public void StripeBrakesSpeed(){
-       decceleration = 0.03;
+       decceleration = 0.25;
     }
 
     public void MagicBrakesSpeed(){

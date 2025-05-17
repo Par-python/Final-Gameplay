@@ -33,14 +33,14 @@ public class EngineType {
 
     public void ShortCakeSpeed(){
 
-        if(PlayerFrame.getSpeed() <= 0.6 && PlayerFrame.getGearUpdate() == 1){
-            acceleration = 0.03;
-        } else if ( PlayerFrame.getSpeed() <= 0.9 && PlayerFrame.getGearUpdate() == 2){
-            acceleration =0.01;
-        } else if(PlayerFrame.getSpeed() <= 1.2 && PlayerFrame.getGearUpdate() == 3) {
-            acceleration = 0.0075;
-        }  else if(PlayerFrame.getSpeed() <= 1.5 && PlayerFrame.getGearUpdate() == 4) {
-            acceleration = 0.0070;
+        if(PlayerFrame.getSpeed() <= 60 && PlayerFrame.getGearUpdate() == 1){
+            acceleration = 0.5;
+        } else if ( PlayerFrame.getSpeed() <= 90 && PlayerFrame.getGearUpdate() == 2){
+            acceleration = 0.25;
+        } else if(PlayerFrame.getSpeed() <= 120 && PlayerFrame.getGearUpdate() == 3) {
+            acceleration = 0.125;
+        }  else if(PlayerFrame.getSpeed() <= 150 && PlayerFrame.getGearUpdate() == 4) {
+            acceleration = 0.0625;
         } else {
             acceleration = 0;
         }
