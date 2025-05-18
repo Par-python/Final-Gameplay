@@ -35,6 +35,7 @@ public class EngineType {
 
     public void ShortCakeSpeed(){
 
+        // acceleration speeds 
         if(PlayerFrame.getSpeed() <= 60 && PlayerFrame.getGearUpdate() == 1){
             acceleration = 0.5;
         } else if ( PlayerFrame.getSpeed() <= 90 && PlayerFrame.getGearUpdate() == 2){
@@ -49,6 +50,7 @@ public class EngineType {
             acceleration = 0;
         }
 
+        //managing downshifting and moneyshift
         if(PlayerFrame.getGearUpdate() < PlayerFrame.getPrevGear()){
               double[] maxSpeed = {0, 60, 90, 120, 150, 170};
 
@@ -64,6 +66,14 @@ public class EngineType {
 
           speed = maxSpeed[(int) PlayerFrame.getGearUpdate()];
     }
+    
+    public void MatchaSpeed(){
+       acceleration = 0.03;
+    }
+
+    public void ChocoloateSpeed(){
+        acceleration = 0.05;
+    }
 
     public boolean isMoneyShift(){        
         return moneyShift;
@@ -73,13 +83,6 @@ public class EngineType {
         moneyShift = false;
     }
 
-    public void MatchaSpeed(){
-       acceleration = 0.03;
-    }
-
-    public void ChocoloateSpeed(){
-        acceleration = 0.05;
-    }
 
     public double getAccelerationFinal(){
         return acceleration;
