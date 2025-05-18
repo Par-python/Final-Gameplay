@@ -52,7 +52,6 @@ public class PlayerFrame extends JFrame {
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
         assets = new GameMapAssets();
-        clouds = new GameMapClouds();
         castle = new GameMapCastle();
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
@@ -106,6 +105,7 @@ public class PlayerFrame extends JFrame {
                 
                 if(me.getX() > widthX * 14.5){
                     speed = 0;
+                    isNotNearEnd = false;
                 }
 
                 if (gas && isNotNearEnd) {
@@ -233,17 +233,21 @@ public class PlayerFrame extends JFrame {
 
             Graphics2D g2d = (Graphics2D) g.create();
 
+            double frameWidth = getWidth();
+            double playerX = me.getX();
+            double cameraX = playerX - frameWidth / 2;
+
+            double cloudsPara = 0.1;
+            int backgroundCloudsMove = (int) (-cameraX * cloudsPara);
+            clouds = new GameMapClouds(backgroundCloudsMove);
+
             castle.paintComponent(g2d);
+            clouds.paintComponent(g2d);
 
             if (me.getX() >= (getWidth() / 2)) {
-                double frameWidth = getWidth();
-                double playerX = me.getX();
-                double cameraX = playerX - frameWidth / 2;
-
                 g2d.translate(-cameraX, 0);
             }
 
-            clouds.paintComponent(g2d);
             background.paintComponent(g2d);
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
