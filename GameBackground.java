@@ -41,6 +41,8 @@ public class GameBackground extends JComponent{
             g.drawImage(gameBackground4, bgWidth * 10, 0, getWidth(), getHeight(), this);
             g.drawImage(gameBackground5, bgWidth * 11, 0, getWidth(), getHeight(), this);
             g.drawImage(gameBackground3, bgWidth * 12, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameBackground4, bgWidth * 13, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameBackground5, bgWidth * 14, 0, getWidth(), getHeight(), this);
         }
     }
 }

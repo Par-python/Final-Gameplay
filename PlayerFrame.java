@@ -101,8 +101,14 @@ public class PlayerFrame extends JFrame {
         int interval = 10;
         ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+                double widthX = 4096;
+                boolean isNotNearEnd = true;
+                
+                if(me.getX() > widthX * 14.5){
+                    speed = 0;
+                }
 
-                if (gas) {
+                if (gas && isNotNearEnd) {
                     engineType.checkEngine();
                     if(engineType.isMoneyShift()){
                         speed = engineType.getSpeed();
@@ -117,9 +123,8 @@ public class PlayerFrame extends JFrame {
                     if (brake) {
                         speed -= brakeType.getDeccelerationFinal();
                     } else {
-                        speed -= 0.0025;
+                        speed -= 0.25;
                     }
-
                     if (speed < 0) {
                         System.out.printf("Deccerelate: 0\n ");
                     } else {
@@ -146,6 +151,7 @@ public class PlayerFrame extends JFrame {
                         System.out.println("Gear:" + gear);
                     }
                 }
+            
 
                 me.moveH(speed);
 
