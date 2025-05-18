@@ -116,7 +116,6 @@ public class PlayerFrame extends JFrame {
                     } else {
                         speed += engineType.getAccelerationFinal();
                     }
-                    System.out.printf("Accerelate: %.0f\n ", speed * 100);
                 } else if (speed < 0) {
                     speed = 0;
                 } else if (speed > 0.01) {
@@ -124,11 +123,6 @@ public class PlayerFrame extends JFrame {
                         speed -= brakeType.getDeccelerationFinal();
                     } else {
                         speed -= 0.25;
-                    }
-                    if (speed < 0) {
-                        System.out.printf("Deccerelate: 0\n ");
-                    } else {
-                        System.out.printf("Deccerelate: %.0f\n ", speed * 100);
                     }
                 }
 
