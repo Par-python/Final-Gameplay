@@ -3,12 +3,14 @@ public class EngineType {
     private String engineType;
     private double acceleration, speed;
     private int gear;
+    private boolean moneyShift;
 
     public EngineType(String engineType){
         this.engineType = engineType;
         acceleration = 0;
         speed = 0;
         gear = 1;
+        moneyShift = false;
 
     }
 
@@ -46,6 +48,29 @@ public class EngineType {
         } else {
             acceleration = 0;
         }
+
+        if(PlayerFrame.getGearUpdate() < PlayerFrame.getPrevGear()){
+              double[] maxSpeed = {0, 60, 90, 120, 150, 170};
+
+            if(PlayerFrame.getSpeed() > maxSpeed[(int) PlayerFrame.getGearUpdate()]){
+                moneyShift = true;
+                ShortCakeMoneyShift();
+            }
+        }
+    }
+
+    public void ShortCakeMoneyShift(){
+          double[] maxSpeed = {0, 60, 90, 120, 150, 170};
+
+          speed = maxSpeed[(int) PlayerFrame.getGearUpdate()];
+    }
+
+    public boolean isMoneyShift(){        
+        return moneyShift;
+    }
+
+    public void resetMoneyShift(){
+        moneyShift = false;
     }
 
     public void MatchaSpeed(){
@@ -62,6 +87,10 @@ public class EngineType {
 
     public int getGear(){
         return gear;
+    }
+
+    public double getSpeed(){
+        return speed;
     }
 
     public String getEngineType(){

@@ -20,6 +20,7 @@ public class PlayerFrame extends JFrame {
     private boolean gas, brake, shiftU, shiftD;
     private static double speed;
     private static int gear;
+    private static double prevGear;
     private EngineType engineType;
     private BrakeType brakeType;
     private boolean clutchReleased;
@@ -45,6 +46,7 @@ public class PlayerFrame extends JFrame {
         shiftD = false;
         speed = 0;
         gear = 1;
+        prevGear = 1;
         clutchReleased = true;
         engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
@@ -91,6 +93,10 @@ public class PlayerFrame extends JFrame {
         return gear;
     }
 
+    public static double getPrevGear(){
+        return prevGear;
+    }
+
     private void setUpAnimationTimer() {
         int interval = 10;
         ActionListener al = new ActionListener() {
@@ -98,7 +104,12 @@ public class PlayerFrame extends JFrame {
 
                 if (gas) {
                     engineType.checkEngine();
-                    speed += engineType.getAccelerationFinal();
+                    if(engineType.isMoneyShift()){
+                        speed = engineType.getSpeed();
+                        engineType.resetMoneyShift();
+                    } else {
+                        speed += engineType.getAccelerationFinal();
+                    }
                     System.out.printf("Accerelate: %.0f\n ", speed * 100);
                 } else if (speed < 0) {
                     speed = 0;
@@ -119,6 +130,7 @@ public class PlayerFrame extends JFrame {
                 if (shiftU) {
                     if (clutchReleased == true) {
                         if(gear < 6){
+                            prevGear = gear;
                             gear += engineType.getGear();
                             clutchReleased = false;
                             System.out.println("Gear:" + gear);
@@ -128,6 +140,7 @@ public class PlayerFrame extends JFrame {
 
                 if (shiftD) {
                     if (gear != 0 && clutchReleased == true) {
+                        prevGear = gear;
                         gear -= engineType.getGear();
                         clutchReleased = false;
                         System.out.println("Gear:" + gear);
