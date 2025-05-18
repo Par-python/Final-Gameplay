@@ -118,9 +118,11 @@ public class PlayerFrame extends JFrame {
 
                 if (shiftU) {
                     if (clutchReleased == true) {
-                        gear += engineType.getGear();
-                        clutchReleased = false;
-                        System.out.println("Gear:" + gear);
+                        if(gear < 6){
+                            gear += engineType.getGear();
+                            clutchReleased = false;
+                            System.out.println("Gear:" + gear);
+                        }
                     }
                 }
 
