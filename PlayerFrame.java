@@ -30,6 +30,7 @@ public class PlayerFrame extends JFrame {
     private GameMapAssets assets;
     private GameMapClouds clouds;
     private GameMapCastle castle;
+    private GameMapSky sky;
 
     // for server
     private Socket socket;
@@ -52,7 +53,7 @@ public class PlayerFrame extends JFrame {
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
         assets = new GameMapAssets();
-        castle = new GameMapCastle();
+        sky = new GameMapSky();
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
     }
@@ -241,6 +242,11 @@ public class PlayerFrame extends JFrame {
             int backgroundCloudsMove = (int) (-cameraX * cloudsPara);
             clouds = new GameMapClouds(backgroundCloudsMove);
 
+            double castlePara = 0.1 / 10; // very slow
+            int backgroundCastleMove = (int) (-cameraX * castlePara);
+            castle = new GameMapCastle(backgroundCastleMove);
+
+            sky.paintComponent(g2d);
             castle.paintComponent(g2d);
             clouds.paintComponent(g2d);
 
@@ -328,7 +334,7 @@ public class PlayerFrame extends JFrame {
             }
         }
     }
-
+    
     public static void main(String[] args) {
         PlayerFrame pf = new PlayerFrame(1024, 768);
         pf.connectToServer();
