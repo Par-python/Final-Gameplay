@@ -106,15 +106,15 @@ public class EngineType {
     public void ChocoloateSpeed(){
         // acceleration speeds 
         if(PlayerFrame.getSpeed() <= 90 && PlayerFrame.getGearUpdate() == 1){
-            acceleration = 0.6;
+            acceleration = 0.7;
         } else if ( PlayerFrame.getSpeed() <= 120 && PlayerFrame.getGearUpdate() == 2){
             acceleration = 0.3;
         } else if(PlayerFrame.getSpeed() <= 150 && PlayerFrame.getGearUpdate() == 3) {
             acceleration = 0.2;
         }  else if(PlayerFrame.getSpeed() <= 180 && PlayerFrame.getGearUpdate() == 4) {
-            acceleration = 0.1;
+            acceleration = 0.15;
         } else if(PlayerFrame.getSpeed() <= 200 && PlayerFrame.getGearUpdate() == 5){
-            acceleration = 0.050;
+            acceleration = 0.1;
         } else if(PlayerFrame.getSpeed() <= 225 && PlayerFrame.getGearUpdate() == 6){
             acceleration = 0.025;
         }else {
@@ -133,7 +133,7 @@ public class EngineType {
     }
 
      public void CholocateMoneyShift(){
-          double[] maxSpeed = {0, 70, 100, 130, 160, 180, 205};
+          double[] maxSpeed = {0, 90, 120, 150, 180, 200, 225};
 
           speed = maxSpeed[(int) PlayerFrame.getGearUpdate()];
     }

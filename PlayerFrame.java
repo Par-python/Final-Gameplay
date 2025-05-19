@@ -49,7 +49,7 @@ public class PlayerFrame extends JFrame {
         gear = 1;
         prevGear = 1;
         clutchReleased = true;
-        engineType = new EngineType("ShortCake Core");
+        engineType = new EngineType("ChocolateOverload Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
         assets = new GameMapAssets();
