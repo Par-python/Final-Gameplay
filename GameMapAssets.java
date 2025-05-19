@@ -14,7 +14,23 @@ public class GameMapAssets extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (gameMapAssets != null) {
+            int bgWidth = 4096;
             g.drawImage(gameMapAssets, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 2, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 3, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 4, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 5, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 6, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 7, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 8, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 9, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 10, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 11, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 12, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 13, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 14, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 15, 0, getWidth(), getHeight(), this);
         }
     }
 }
