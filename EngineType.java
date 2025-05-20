@@ -1,7 +1,7 @@
 public class EngineType {
 
     private String engineType;
-    private double acceleration, speed;
+    private double acceleration, speed, lessTopSpeed;
     private int gear;
     private boolean moneyShift;
 
@@ -11,7 +11,7 @@ public class EngineType {
         speed = 0;
         gear = 1;
         moneyShift = false;
-
+        lessTopSpeed = 0;
     }
 
     public void checkEngine(){
@@ -45,7 +45,7 @@ public class EngineType {
             acceleration = 0.15;
         } else if(PlayerFrame.getSpeed() <= 170 && PlayerFrame.getGearUpdate() == 5){
             acceleration = 0.05;
-        } else if(PlayerFrame.getSpeed() <= 190 && PlayerFrame.getGearUpdate() == 6){
+        } else if(PlayerFrame.getSpeed() <= 190 - lessTopSpeed && PlayerFrame.getGearUpdate() == 6){
             acceleration = 0.025;
         }else {
             acceleration = 0;
@@ -69,6 +69,7 @@ public class EngineType {
     }
     
     public void MatchaSpeed(){
+
         // acceleration speeds 
         if(PlayerFrame.getSpeed() <= 70 && PlayerFrame.getGearUpdate() == 1){
             acceleration = 0.6;
@@ -80,7 +81,7 @@ public class EngineType {
             acceleration = 0.1;
         } else if(PlayerFrame.getSpeed() <= 180 && PlayerFrame.getGearUpdate() == 5){
             acceleration = 0.050;
-        } else if(PlayerFrame.getSpeed() <= 205 && PlayerFrame.getGearUpdate() == 6){
+        } else if(PlayerFrame.getSpeed() <= 205 - lessTopSpeed && PlayerFrame.getGearUpdate() == 6){
             acceleration = 0.025;
         }else {
             acceleration = 0;
@@ -104,6 +105,7 @@ public class EngineType {
     }
 
     public void ChocoloateSpeed(){
+
         // acceleration speeds 
         if(PlayerFrame.getSpeed() <= 90 && PlayerFrame.getGearUpdate() == 1){
             acceleration = 0.7;
@@ -115,7 +117,7 @@ public class EngineType {
             acceleration = 0.15;
         } else if(PlayerFrame.getSpeed() <= 200 && PlayerFrame.getGearUpdate() == 5){
             acceleration = 0.1;
-        } else if(PlayerFrame.getSpeed() <= 225 && PlayerFrame.getGearUpdate() == 6){
+        } else if(PlayerFrame.getSpeed() <= 225 - lessTopSpeed && PlayerFrame.getGearUpdate() == 6){
             acceleration = 0.025;
         }else {
             acceleration = 0;
@@ -127,15 +129,19 @@ public class EngineType {
 
             if(PlayerFrame.getSpeed() > maxSpeed[(int) PlayerFrame.getGearUpdate()]){
                 moneyShift = true;
-                ChocoloateSpeed();
+                CholocateMoneyShift();
             }
         }
     }
 
-     public void CholocateMoneyShift(){
+    public void CholocateMoneyShift(){
           double[] maxSpeed = {0, 90, 120, 150, 180, 200, 225};
 
           speed = maxSpeed[(int) PlayerFrame.getGearUpdate()];
+    }
+
+    public void tubroIsActivated(){
+        lessTopSpeed -=30;
     }
 
     public boolean isMoneyShift(){        

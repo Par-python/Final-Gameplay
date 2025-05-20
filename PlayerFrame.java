@@ -24,6 +24,7 @@ public class PlayerFrame extends JFrame {
     private EngineType engineType;
     private BrakeType brakeType;
     private boolean clutchReleased;
+    private Turbo turbo;
 
     // art
     private GameBackground background;
@@ -55,6 +56,7 @@ public class PlayerFrame extends JFrame {
         background = new GameBackground();
         assets = new GameMapAssets();
         sky = new GameMapSky();
+        turbo = new Turbo();
         obstacle = new Obstacle(0, 0);
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
@@ -89,7 +91,7 @@ public class PlayerFrame extends JFrame {
     }
 
     private void createObstacles(){
-        obstacle = new Obstacle(1000, 400);
+        obstacle = new Obstacle(4090, 400);
     }
 
     public static double getSpeed() {
@@ -123,10 +125,14 @@ public class PlayerFrame extends JFrame {
                     isNotNearEnd = false;
                 }
 
+                if(turbo.isTurboActive()){
+                    engineType.tubroIsActivated();
+                }
+                
                 if (gas && isNotNearEnd) {
                     engineType.checkEngine();
                     if(engineType.isMoneyShift()){
-                        speed = engineType.getSpeed();
+                        speed = engineType.getSpeed() + turbo.getTurboBurst();
                         engineType.resetMoneyShift();
                     } else {
                         speed += engineType.getAccelerationFinal();
