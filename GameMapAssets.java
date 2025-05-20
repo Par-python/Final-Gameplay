@@ -31,6 +31,9 @@ public class GameMapAssets extends JComponent {
             g.drawImage(gameMapAssets, bgWidth * 13, 0, getWidth(), getHeight(), this);
             g.drawImage(gameMapAssets, bgWidth * 14, 0, getWidth(), getHeight(), this);
             g.drawImage(gameMapAssets, bgWidth * 15, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 16, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 17, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 18, 0, getWidth(), getHeight(), this);
         }
     }
 }

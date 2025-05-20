@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 
@@ -25,6 +24,7 @@ public class PlayerFrame extends JFrame {
     private BrakeType brakeType;
     private boolean clutchReleased;
     private Turbo turbo;
+    private static int ellapsedTime;
 
     // art
     private GameBackground background;
@@ -50,7 +50,7 @@ public class PlayerFrame extends JFrame {
         gear = 1;
         prevGear = 1;
         clutchReleased = true;
-        engineType = new EngineType("ChocolateOverload Core");
+        engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
         assets = new GameMapAssets();
@@ -103,10 +103,11 @@ public class PlayerFrame extends JFrame {
         int interval = 10;
         ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+
                 double widthX = 4096;
                 boolean isNotNearEnd = true;
 
-                if(me.getX() > widthX * 14.5){
+                if(me.getX() > widthX * 17.5){
                     speed = 0;
                     isNotNearEnd = false;
                 }
@@ -116,16 +117,19 @@ public class PlayerFrame extends JFrame {
                 }
 
                 if (gas && isNotNearEnd) {
+                    ellapsedTime+=interval;
                     engineType.checkEngine();
                     if(engineType.isMoneyShift()){
-                        speed = engineType.getSpeed() + turbo.getTurboBurst();
+                        speed = engineType.getSpeed();
                         engineType.resetMoneyShift();
                     } else {
                         speed += engineType.getAccelerationFinal();
                     }
                 } else if (speed < 0) {
+                    ellapsedTime+=interval;
                     speed = 0;
                 } else if (speed > 0.01) {
+                    ellapsedTime+=interval;
                     if (brake) {
                         speed -= brakeType.getDeccelerationFinal();
                     } else {
@@ -269,6 +273,13 @@ public class PlayerFrame extends JFrame {
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
             g.setColor(Color.WHITE);
             g.drawString(String.format("Speed: %.0f", speed * 1), 500, 740);
+
+            int totalSeconds = ellapsedTime / 1000;
+            int displayMinutes = totalSeconds / 60;
+            int displaySeconds = totalSeconds % 60;
+            int displayMilliseconds = ellapsedTime % 1000;
+
+            g.drawString(String.format("%02d:%02d:%03d%n", displayMinutes , displaySeconds, displayMilliseconds),0 , 740 );
 
             if(gear == 0){
                 g.drawString("Gear: N" , 500, 760);
