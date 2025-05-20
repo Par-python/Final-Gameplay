@@ -17,6 +17,7 @@ public class Turbo {
     }
 
     public double getTurboBurst(){
+        addedTubroAcceleration();
         return addedTurbo;
     }
 }

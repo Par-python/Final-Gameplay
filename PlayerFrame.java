@@ -32,7 +32,6 @@ public class PlayerFrame extends JFrame {
     private GameMapClouds clouds;
     private GameMapCastle castle;
     private GameMapSky sky;
-    private Obstacle obstacle;
 
     // for server
     private Socket socket;
@@ -57,7 +56,6 @@ public class PlayerFrame extends JFrame {
         assets = new GameMapAssets();
         sky = new GameMapSky();
         turbo = new Turbo();
-        obstacle = new Obstacle(0, 0);
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
     }
@@ -68,7 +66,6 @@ public class PlayerFrame extends JFrame {
         contentPane.setPreferredSize(new Dimension(width, height));
         dc = new DrawingComponent();
         createSprites();
-        createObstacles();
         contentPane.add(dc);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
@@ -90,10 +87,6 @@ public class PlayerFrame extends JFrame {
         }
     }
 
-    private void createObstacles(){
-        obstacle = new Obstacle(4090, 400);
-    }
-
     public static double getSpeed() {
         return speed;
     }
@@ -113,13 +106,6 @@ public class PlayerFrame extends JFrame {
                 double widthX = 4096;
                 boolean isNotNearEnd = true;
 
-
-                if(obstacle.isColliding(me.getX()) && speed > 90){
-                    speed-=35;
-                    obstacle.setX(0);
-                    obstacle.setY(-100);
-                }
-
                 if(me.getX() > widthX * 14.5){
                     speed = 0;
                     isNotNearEnd = false;
@@ -128,7 +114,7 @@ public class PlayerFrame extends JFrame {
                 if(turbo.isTurboActive()){
                     engineType.tubroIsActivated();
                 }
-                
+
                 if (gas && isNotNearEnd) {
                     engineType.checkEngine();
                     if(engineType.isMoneyShift()){
@@ -278,8 +264,6 @@ public class PlayerFrame extends JFrame {
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
             assets.paintComponent(g2d);
-            obstacle.drawSprite(g2d);
-
             g2d.dispose();
             
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
