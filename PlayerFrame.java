@@ -25,6 +25,7 @@ public class PlayerFrame extends JFrame {
     private boolean clutchReleased;
     private Turbo turbo;
     private static int ellapsedTime;
+    private boolean playerhasJoined;
 
     // art
     private GameBackground background;
@@ -32,6 +33,7 @@ public class PlayerFrame extends JFrame {
     private GameMapClouds clouds;
     private GameMapCastle castle;
     private GameMapSky sky;
+    private GameCountdown countdown;
 
     // for server
     private Socket socket;
@@ -49,12 +51,14 @@ public class PlayerFrame extends JFrame {
         speed = 0;
         gear = 1;
         prevGear = 1;
+        playerhasJoined = false;
         clutchReleased = true;
         engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
         assets = new GameMapAssets();
         sky = new GameMapSky();
+        countdown = new GameCountdown();
         turbo = new Turbo();
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
@@ -270,6 +274,11 @@ public class PlayerFrame extends JFrame {
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
             assets.paintComponent(g2d);
+
+            if(playerhasJoined){
+                countdown.paintComponent(g2d);
+            }
+
             g2d.dispose();
             
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
@@ -314,6 +323,8 @@ public class PlayerFrame extends JFrame {
         }
 
         public void waitForStartMsg() {
+            playerhasJoined = true;
+
             try {
                 String startMsg = dataIn.readUTF();
                 System.out.println("Message from server: " + startMsg);
