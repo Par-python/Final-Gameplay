@@ -67,4 +67,10 @@ public class PlayerSprite{
             return y;
         }
 
+        // public boolean isColliding(Obstacle o){
+        //     return !(
+        //         x <= o.getX() ||
+        //         x >= o.getX() + 
+        //     );
+        // }
     }

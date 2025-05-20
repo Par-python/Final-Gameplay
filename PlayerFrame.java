@@ -31,6 +31,7 @@ public class PlayerFrame extends JFrame {
     private GameMapClouds clouds;
     private GameMapCastle castle;
     private GameMapSky sky;
+    private Obstacle obstacle;
 
     // for server
     private Socket socket;
@@ -54,6 +55,7 @@ public class PlayerFrame extends JFrame {
         background = new GameBackground();
         assets = new GameMapAssets();
         sky = new GameMapSky();
+        obstacle = new Obstacle(0, 0);
         me = new PlayerSprite(100, 400, 50, Color.BLUE, "Blueberry");
         enemy = new PlayerSprite(100, 500, 50, Color.RED, "Strawberry");
     }
@@ -64,6 +66,7 @@ public class PlayerFrame extends JFrame {
         contentPane.setPreferredSize(new Dimension(width, height));
         dc = new DrawingComponent();
         createSprites();
+        createObstacles();
         contentPane.add(dc);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
@@ -85,6 +88,10 @@ public class PlayerFrame extends JFrame {
         }
     }
 
+    private void createObstacles(){
+        obstacle = new Obstacle(1000, 400);
+    }
+
     public static double getSpeed() {
         return speed;
     }
@@ -103,7 +110,14 @@ public class PlayerFrame extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 double widthX = 4096;
                 boolean isNotNearEnd = true;
-                
+
+
+                if(obstacle.isColliding(me.getX()) && speed > 90){
+                    speed-=35;
+                    obstacle.setX(0);
+                    obstacle.setY(-100);
+                }
+
                 if(me.getX() > widthX * 14.5){
                     speed = 0;
                     isNotNearEnd = false;
@@ -258,13 +272,19 @@ public class PlayerFrame extends JFrame {
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
             assets.paintComponent(g2d);
+            obstacle.drawSprite(g2d);
 
             g2d.dispose();
             
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
             g.setColor(Color.WHITE);
             g.drawString(String.format("Speed: %.0f", speed * 1), 500, 740);
-            g.drawString("Gear: " + gear, 500, 760);
+
+            if(gear == 0){
+                g.drawString("Gear: N" , 500, 760);
+            } else {
+                g.drawString("Gear: " + gear, 500, 760);
+            }
         }
     }
 

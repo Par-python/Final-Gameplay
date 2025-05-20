@@ -22,8 +22,8 @@ public class Obstacle {
                 String fileName = "obstacle" + (i + 1) + ".png";
                 imageName[i] = fileName;
             }
-            int randomImageNumber = (int)(Math.random() * 9);
-            String chosenFile = imageName[randomImageNumber];
+            int randomImageNumber = (int)(Math.random() * 7);
+            String chosenFile = "./assets/" + imageName[randomImageNumber];
 
             obstacle = ImageIO.read(getClass().getResourceAsStream(chosenFile));
 
@@ -44,5 +44,19 @@ public class Obstacle {
 
     public double getX(){
         return x;
+    }
+
+    public boolean isColliding(double x){
+        return !(
+            this.x + 100 <= x ||
+            this.x >= x + 200
+        );
+    }
+
+    public void setX(double x){
+        this.x = x;
+    }
+    public void setY(double y){
+        this.y = y;
     }
 }
