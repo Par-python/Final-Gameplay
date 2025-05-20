@@ -8,7 +8,7 @@ public class Turbo {
     }
 
     public void addedTubroAcceleration(){
-        addedTurbo = 0.25;
+        addedTurbo = 0.5;
         isTurboActive = true;
     }
 

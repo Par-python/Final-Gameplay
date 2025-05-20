@@ -36,17 +36,17 @@ public class EngineType {
 
         // acceleration speeds 
         if(PlayerFrame.getSpeed() <= 60 && PlayerFrame.getGearUpdate() == 1){
-            acceleration = 0.5;
+            acceleration = 0.7;
         } else if ( PlayerFrame.getSpeed() <= 90 && PlayerFrame.getGearUpdate() == 2){
-            acceleration = 0.4;
+            acceleration = 0.6;
         } else if(PlayerFrame.getSpeed() <= 120 && PlayerFrame.getGearUpdate() == 3) {
-            acceleration = 0.3;
+            acceleration = 0.5;
         }  else if(PlayerFrame.getSpeed() <= 150 && PlayerFrame.getGearUpdate() == 4) {
-            acceleration = 0.15;
+            acceleration = 0.3;
         } else if(PlayerFrame.getSpeed() <= 170 && PlayerFrame.getGearUpdate() == 5){
-            acceleration = 0.05;
+            acceleration = 0.2;
         } else if(PlayerFrame.getSpeed() <= 190 - lessTopSpeed && PlayerFrame.getGearUpdate() == 6){
-            acceleration = 0.025;
+            acceleration = 0.1;
         }else {
             acceleration = 0;
         }

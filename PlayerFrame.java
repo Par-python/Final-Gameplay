@@ -107,7 +107,7 @@ public class PlayerFrame extends JFrame {
                 double widthX = 4096;
                 boolean isNotNearEnd = true;
 
-                if(me.getX() > widthX * 17.5){
+                if(me.getX() > widthX * 29.5){
                     speed = 0;
                     isNotNearEnd = false;
                 }
@@ -117,19 +117,21 @@ public class PlayerFrame extends JFrame {
                 }
 
                 if (gas && isNotNearEnd) {
-                    ellapsedTime+=interval;
+
+                    if(gear != 0){
+                        ellapsedTime+=interval;
+                    }
+                    
                     engineType.checkEngine();
                     if(engineType.isMoneyShift()){
-                        speed = engineType.getSpeed();
+                        speed = engineType.getSpeed() + turbo.getTurboBurst();
                         engineType.resetMoneyShift();
                     } else {
                         speed += engineType.getAccelerationFinal();
                     }
                 } else if (speed < 0) {
-                    ellapsedTime+=interval;
                     speed = 0;
                 } else if (speed > 0.01) {
-                    ellapsedTime+=interval;
                     if (brake) {
                         speed -= brakeType.getDeccelerationFinal();
                     } else {
@@ -252,7 +254,7 @@ public class PlayerFrame extends JFrame {
             int backgroundCloudsMove = (int) (-cameraX * cloudsPara);
             clouds = new GameMapClouds(backgroundCloudsMove);
 
-            double castlePara = 0.1 / 10; // very slow
+            double castlePara = 0.05 / 10; // very slow
             int backgroundCastleMove = (int) (-cameraX * castlePara);
             castle = new GameMapCastle(backgroundCastleMove);
 

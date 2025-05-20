@@ -34,6 +34,36 @@ public class GameMapAssets extends JComponent {
             g.drawImage(gameMapAssets, bgWidth * 16, 0, getWidth(), getHeight(), this);
             g.drawImage(gameMapAssets, bgWidth * 17, 0, getWidth(), getHeight(), this);
             g.drawImage(gameMapAssets, bgWidth * 18, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 19, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 20, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 21, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 22, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 23, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 24, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 25, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 26, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 27, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 28, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 29, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 30, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 31, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 32, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 33, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 34, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 35, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 36, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 37, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 38, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 39, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 40, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 41, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 42, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 43, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 44, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 45, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 46, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 47, 0, getWidth(), getHeight(), this);
+            g.drawImage(gameMapAssets, bgWidth * 48, 0, getWidth(), getHeight(), this);
         }
     }
 }
