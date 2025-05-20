@@ -61,12 +61,9 @@ public class PlayerFrame extends JFrame {
         playerhasJoined = false;
         clutchReleased = true;
         obstacle1 = new Obstacle(0, 0, 1);
-        obstacle1 = new Obstacle(0, 0, 2);
-        obstacle1 = new Obstacle(0, 0, 3);
-        obstacle1 = new Obstacle(0, 0, 4);
-        obstacle1 = new Obstacle(0, 0, 5);
-        obstacle1 = new Obstacle(0, 0, 6);
-        obstacle1 = new Obstacle(0, 0, 7);
+        obstacle2 = new Obstacle(0, 0, 2);
+        obstacle3 = new Obstacle(0, 0, 3);
+        obstacle4 = new Obstacle(0, 0, 4);
         engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
@@ -107,13 +104,10 @@ public class PlayerFrame extends JFrame {
     }
 
     private void createObstacles(){
-        obstacle1 = new Obstacle(3000, 400, 1);
+        obstacle1 = new Obstacle(2000, 400, 1);
         obstacle2 = new Obstacle(4900, 500, 2);
-        obstacle3 = new Obstacle(1500, 400, 3);
-        obstacle4 = new Obstacle(2500, 500, 4);
-        obstacle5 = new Obstacle(12200, 400, 5);
-        obstacle6 = new Obstacle(25000, 500, 6);
-        obstacle7 = new Obstacle(18900, 400, 7);
+        obstacle3 = new Obstacle(5800, 400, 3);
+        obstacle4 = new Obstacle(8900, 500, 4);
     }
 
     public static double getSpeed() {
@@ -303,9 +297,6 @@ public class PlayerFrame extends JFrame {
             obstacle2.drawSprite(g2d);
             obstacle3.drawSprite(g2d);
             obstacle4.drawSprite(g2d);
-            obstacle5.drawSprite(g2d);
-            obstacle6.drawSprite(g2d);
-            obstacle7.drawSprite(g2d);
 
             if(playerhasJoined){
                 countdown.paintComponent(g2d);
