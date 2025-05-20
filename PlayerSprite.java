@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -65,5 +66,9 @@ public class PlayerSprite{
 
         public double getY(){
             return y;
+        }
+
+        public Rectangle2D getHitbox() {
+            return new Rectangle2D.Double(x, y, 200, 100);
         }
     }

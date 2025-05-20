@@ -34,6 +34,13 @@ public class PlayerFrame extends JFrame {
     private GameMapCastle castle;
     private GameMapSky sky;
     private GameCountdown countdown;
+    private Obstacle obstacle1;
+    private Obstacle obstacle2;
+    private Obstacle obstacle3;
+    private Obstacle obstacle4;
+    private Obstacle obstacle5;
+    private Obstacle obstacle6;
+    private Obstacle obstacle7;
 
     // for server
     private Socket socket;
@@ -53,6 +60,13 @@ public class PlayerFrame extends JFrame {
         prevGear = 1;
         playerhasJoined = false;
         clutchReleased = true;
+        obstacle1 = new Obstacle(0, 0, 1);
+        obstacle1 = new Obstacle(0, 0, 2);
+        obstacle1 = new Obstacle(0, 0, 3);
+        obstacle1 = new Obstacle(0, 0, 4);
+        obstacle1 = new Obstacle(0, 0, 5);
+        obstacle1 = new Obstacle(0, 0, 6);
+        obstacle1 = new Obstacle(0, 0, 7);
         engineType = new EngineType("ShortCake Core");
         brakeType = new BrakeType("Stripe Brakes");
         background = new GameBackground();
@@ -70,6 +84,7 @@ public class PlayerFrame extends JFrame {
         contentPane.setPreferredSize(new Dimension(width, height));
         dc = new DrawingComponent();
         createSprites();
+        createObstacles();
         contentPane.add(dc);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
@@ -89,6 +104,16 @@ public class PlayerFrame extends JFrame {
             enemy = new PlayerSprite(100, 350, 50, Color.BLUE, "BlueBerry");
             me = new PlayerSprite(100, 450, 50, Color.RED, "Strawberry");
         }
+    }
+
+    private void createObstacles(){
+        obstacle1 = new Obstacle(3000, 400, 1);
+        obstacle2 = new Obstacle(4900, 500, 2);
+        obstacle3 = new Obstacle(1500, 400, 3);
+        obstacle4 = new Obstacle(2500, 500, 4);
+        obstacle5 = new Obstacle(12200, 400, 5);
+        obstacle6 = new Obstacle(25000, 500, 6);
+        obstacle7 = new Obstacle(18900, 400, 7);
     }
 
     public static double getSpeed() {
@@ -263,8 +288,8 @@ public class PlayerFrame extends JFrame {
             castle = new GameMapCastle(backgroundCastleMove);
 
             sky.paintComponent(g2d);
-            castle.paintComponent(g2d);
             clouds.paintComponent(g2d);
+            castle.paintComponent(g2d);
 
             if (me.getX() >= (getWidth() / 2)) {
                 g2d.translate(-cameraX, 0);
@@ -274,6 +299,13 @@ public class PlayerFrame extends JFrame {
             enemy.drawSprite(g2d);
             me.drawSprite(g2d);
             assets.paintComponent(g2d);
+            obstacle1.drawSprite(g2d);
+            obstacle2.drawSprite(g2d);
+            obstacle3.drawSprite(g2d);
+            obstacle4.drawSprite(g2d);
+            obstacle5.drawSprite(g2d);
+            obstacle6.drawSprite(g2d);
+            obstacle7.drawSprite(g2d);
 
             if(playerhasJoined){
                 countdown.paintComponent(g2d);
